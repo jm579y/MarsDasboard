@@ -1,9 +1,9 @@
-let store = {
-    user: { name: "Student" },
+let store = Immutable.map({
+    user: Immutable.map({ name: "Student" }),
     apod: '',
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-}
-
+    rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
+})
+console.log("store: ", store)
 // add our markup to the page
 const root = document.getElementById('root')
 
