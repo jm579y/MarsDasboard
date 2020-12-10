@@ -11,7 +11,9 @@ let store = Immutable.fromJS({
 const root = document.getElementById('root')
 
 const updateStore = (store, newState) => {
+    console.log("newState",newState)
     store = store.merge(newState)
+    console.log("store: ",store)
     render(root, store)
 }
 
@@ -23,14 +25,13 @@ const render = async (root, state) => {
 // create content
 const App = (state) => {
     const rovers = state.get("rovers").toJS();
-    const apod = state.get("apod");
-
-
+    const apod = state.toJS();
+    console.log("apod:",apod.apod)
 
     return `
         <header></header>
         <main>
-            ${Greeting(store.getIn(['user','name']))}
+            ${Greeting(apod.user.name)}
             <section>
                 <h3>Put things on the page!</h3>
                 <p>Here is an example section.</p>
@@ -42,7 +43,7 @@ const App = (state) => {
                     explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
                     but generally help with discoverability of relevant imagery.
                 </p>
-                ${ImageOfTheDay(state.get("apod"))}
+                ${ImageOfTheDay(apod.apod)}
             </section>
         </main>
         <footer></footer>
@@ -68,10 +69,9 @@ const Greeting = (name) => {
         <h1>Hello!</h1>
     `
 }
-console.log("latest")
+
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (apod) => {
-    console.log("apod: ", apod)
     //If image does not already exist, or it is not from today -- request it again
     const today = new Date()
     const photodate = new Date(apod.date)
@@ -79,7 +79,7 @@ const ImageOfTheDay = (apod) => {
 
     console.log(photodate.getDate() === today.getDate());
     if (!apod || apod.date === today.getDate() ) {
-        getImageOfTheDay()
+        getImageOfTheDay(store)
     }
 
     //check if the photo of the day is actually type video!
@@ -91,8 +91,8 @@ const ImageOfTheDay = (apod) => {
         `)
     } else {
         return (`
-            <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.explanation}</p>
+            <img src="${apod.url}" height="350px" width="100%" />
+            <p>${apod.explanation}</p>
         `)
     }
 }
@@ -101,10 +101,11 @@ const ImageOfTheDay = (apod) => {
 
 // Example API call
 const getImageOfTheDay = (state) => {
-   // let {apod} = state.getIn(["apod"])
+    let { apod } = state
+
     fetch(`http://localhost:3000/apod`)
         .then(res => res.json())
-        .then(apod => updateStore(store,  {apod} ))
+        .then(apod => updateStore(store, { apod }))
 
-    // return data
+    //return data
 }
