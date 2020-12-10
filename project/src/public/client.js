@@ -11,9 +11,8 @@ let store = Immutable.fromJS({
 const root = document.getElementById('root')
 
 const updateStore = (store, newState) => {
-    console.log("newState",newState)
+    //console.log("newState",newState.apod.image.date)
     store = store.merge(newState)
-    console.log("store: ",store)
     render(root, store)
 }
 
@@ -25,13 +24,13 @@ const render = async (root, state) => {
 // create content
 const App = (state) => {
     const rovers = state.get("rovers").toJS();
-    const apod = state.toJS();
-    console.log("apod:",apod.apod)
+    const newApod = state.toJS();
+    console.log("this apod:",newApod.apod.image)
 
     return `
         <header></header>
         <main>
-            ${Greeting(apod.user.name)}
+            ${Greeting(newApod.user.name)}
             <section>
                 <h3>Put things on the page!</h3>
                 <p>Here is an example section.</p>
@@ -43,7 +42,7 @@ const App = (state) => {
                     explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
                     but generally help with discoverability of relevant imagery.
                 </p>
-                ${ImageOfTheDay(apod.apod)}
+                ${ImageOfTheDay(newApod.apod)}
             </section>
         </main>
         <footer></footer>
@@ -73,6 +72,7 @@ const Greeting = (name) => {
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (apod) => {
     //If image does not already exist, or it is not from today -- request it again
+    console.log(apod.image.url)
     const today = new Date()
     const photodate = new Date(apod.date)
     console.log(photodate.getDate(), today.getDate());
