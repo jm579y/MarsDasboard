@@ -72,7 +72,7 @@ const Greeting = (name) => {
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (apod) => {
     //If image does not already exist, or it is not from today -- request it again
-    console.log(apod.image.url)
+    console.log(apod.image)
     const today = new Date()
     const photodate = new Date(apod.date)
     console.log(photodate.getDate(), today.getDate());
