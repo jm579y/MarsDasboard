@@ -105,9 +105,9 @@ const ImageOfTheDay = (apod) => {
     }
 }
 
-function loadRover() {
+function loadRover(selected) {
     store = store.merge({
-        roverSelected: this.innerText
+        roverSelected: selected
     });
     const rover = store.get('roverSelected');
     document.body.style.background = 'url(../../assets/stars.png)';
@@ -139,8 +139,8 @@ function loadHome() {
 
 function renderRovers(store) {
 
-    const latestPhotos = store.getIn(["images","roverImages","latest_photos"]).toJS();
-    console.log(latestPhotos)
+    const latestPhotos = store.getIn(["images", "roverImages", "latest_photos"])
+        .toJS();
 
     const name = latestPhotos[0].rover.name;
     const launch_date = latestPhotos[0].rover
@@ -153,7 +153,7 @@ function renderRovers(store) {
 
     const roverImages = latestPhotos.map(url => url.img_src);
     const arrayLen = roverImages.length > 6 ? 6 : roverImages
-    .length; // only shows max of 6 photos
+        .length; // only shows max of 6 photos
 
     root.style.display = 'none';
     if (roverContainer.style.display === 'none') {
@@ -174,25 +174,26 @@ function renderRovers(store) {
       </a>
     </div>
   </div>'`)
-  roverContainer.innerHTML += images.reduce((a,b) => a+b);
+    roverContainer.innerHTML += images.reduce((a, b) => a + b);
 
 
     roverContainer.innerHTML += `</div>`;
 
 }
-document.body.addEventListener('click', function(e){
-            if(e.target.id === 'homeButton'){
-                loadHome();
-            }
-            else if(e.target.id === 'Spirit' || e.target.id === 'Opportunity' || e.target.id === 'Curiosity'){
-                loadRover();
-            }
-    });
+document.body.addEventListener('click', function(e) {
+    if (e.target.id === 'homeButton') {
+        loadHome();
+    } else if (e.target.id === 'Spirit' || e.target.id ===
+        'Opportunity' || e.target.id === 'Curiosity') {
+        loadRover(e.target.id);
+    }
+});
 
 function renderRoverMenu(rovers) {
     roverButtons = '';
     roverButtons += rovers.map(rover =>
-            `<div><button type="button" id="${rover}" class="rovers">${rover}</button></div>`)
+            `<div><button type="button" id="${rover}" class="rovers">${rover}</button></div>`
+            )
         .join('');
     const arrayBTNs = document.getElementsByClassName('rovers');
 
@@ -202,12 +203,6 @@ function renderRoverMenu(rovers) {
         `
     <div class='btn-container'><button id="homeButton" type="button">Home</button></div>
     `;
-
-    // document.getElementById('homeButton').addEventListener('click', loadHome);
-
-    // for (let i = 0; i < arrayBTNs.length; i++) {
-    //     arrayBTNs[i].addEventListener('click', loadRover);
-    // }
 
 }
 
