@@ -5,6 +5,7 @@ body {
 	flex-direction: column;
 	font-family: Arial;
 	min-height: 100vh;
+	background: rgb(232, 232, 232);
 }
 
 header {
@@ -24,17 +25,16 @@ footer {
 	display: flex;
 	flex-direction: row-reverse;
 }
-
 /* Media Query for Mobile Devices */
 @media (max-width: 480px) {
 }
 
 div.gallery {
-	border: 1px solid #ccc;
+	border: 0px solid #ccc;
 }
 
 div.gallery:hover {
-	border: 1px solid #777;
+	border: 0px solid #777;
 }
 
 div.gallery img {
@@ -50,13 +50,6 @@ div.gallery img {
 	padding: 0 6px;
 	float: left;
 	width: 24.99999%;
-}
-
-@media only screen and (max-width: 700px) {
-	.responsive {
-		width: 49.99999%;
-		margin: 6px 0;
-	}
 }
 
 @media only screen and (max-width: 500px) {
@@ -75,16 +68,49 @@ div.gallery img {
 	text-align: center;
 	display: block;
 }
-
+/* phones */
+@media only screen and (max-width: 768px) {
+	.responsive {
+		width: 49.99999%;
+		margin: 6px 0;
+	}
+	button {
+		font-size: 15px;
+		display: block;
+		width: 100%;
+		margin-top: 5px;
+	}
+	#appTitle {
+		font-size: xx-large;
+		text-align: center;
+	}
+	#apod {
+		width: 100%;
+	}
+	.box {
+		flex-direction: column-reverse;
+	}
+	.fs-3 {
+		font-size: 0.75rem;
+	}
+	.fs-2 {
+		font-size: 1.5rem;
+	}
+}
+/* Desktop */
 @media only screen and (min-width: 991px) and (max-width: 1824px) {
 	button {
-		font-size: 50px;
+		font-size: 25px;
 	}
 }
 
 @media only screen and (min-width: 1824px) {
 	button {
-		font-size: 50px;
+		font-size: 30px;
 		margin: 5px;
+	}
+	div.gallery img {
+		width: 50%;
+		height: 50%;
 	}
 }

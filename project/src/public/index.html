@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script
-        src='https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js'>
-    </script>
-    <link rel="stylesheet" href="./assets/stylesheets/index.css" />
-    <link rel="stylesheet" href="./assets/stylesheets/resets.css" />
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Mars Rover Dashboard</title>
+        <script
+            src='https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js'>
+        </script>
+        <link rel="stylesheet" href="./assets/stylesheets/index.css" />
+        <link rel="stylesheet" href="./assets/stylesheets/resets.css" />
+    </head>
 
-<body>
-    <header>
-        <div id="roverNavBar" class="box"> </div>
-    </header>
-    <h1>Mars Rover App</h1>
-
-    <!-- Content here -->
-    <main>
-        <div id="root">
-            <h1>Loading...</h1>
+    <body id="body">
+        <header>
+            <div id="roverNavBar" class="box"> </div>
+        </header>
+        <div id="appTitle">
+            <h1>Mars Rover App</h1>
         </div>
-        <div id="images"></div>
-    </main>
 
-</body>
-<script src="/client.js"></script>
+        <!-- Content here -->
+        <main>
+            <div id="root">
+                <h1>Loading...</h1>
+            </div>
+            <div id="images"></div>
+        </main>
+
+    </body>
+    <script src="/client.js"></script>
 
 </html>
