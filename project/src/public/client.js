@@ -28,9 +28,6 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    const rovers = state.get('rovers').toJS();
-    const newApod = state.toJS();
-    //console.log("state->", state.toJS());
 
     if (state.hasIn(['images', 'roverImages'])) {
         renderRovers(state);
@@ -112,7 +109,7 @@ function loadRover() {
     store = store.merge({
         roverSelected: this.innerText
     });
-    let rover = store.get('roverSelected');
+    const rover = store.get('roverSelected');
     document.body.style.background = 'url(../../assets/stars.png)';
     document.body.style.color = 'white';
     loadRoverImage(rover);
@@ -142,19 +139,20 @@ function loadHome() {
 
 function renderRovers(store) {
 
-    let name = store.toJS().images.roverImages.latest_photos[0].rover.name;
-    let launch_date = store.toJS().images.roverImages.latest_photos[0].rover
-        .launch_date;
-    let landing_date = store.toJS().images.roverImages.latest_photos[0].rover
-        .landing_date;
-    let status = store.toJS().images.roverImages.latest_photos[0].rover.status;
-    let earth_date = store.toJS().images.roverImages.latest_photos[0]
-    .earth_date;
-    let totalPhotos = store.toJS().images.roverImages.latest_photos.length;
+    const latestPhotos = store.getIn(["images","roverImages","latest_photos"]).toJS();
+    console.log(latestPhotos)
 
-    let roverImages = store.toJS().images.roverImages.latest_photos.map(url =>
-        url.img_src);
-    let arrayLen = roverImages.length > 6 ? 6 : roverImages
+    const name = latestPhotos[0].rover.name;
+    const launch_date = latestPhotos[0].rover
+        .launch_date;
+    const landing_date = latestPhotos[0].rover
+        .landing_date;
+    const status = latestPhotos[0].rover.status;
+    const earth_date = latestPhotos[0].earth_date;
+    const totalPhotos = latestPhotos.length;
+
+    const roverImages = latestPhotos.map(url => url.img_src);
+    const arrayLen = roverImages.length > 6 ? 6 : roverImages
     .length; // only shows max of 6 photos
 
     root.style.display = 'none';
@@ -169,26 +167,32 @@ function renderRovers(store) {
                     <h4 class="text-center font-weight-normal">Date of Most Recent Photos: ${earth_date}</h4>
                     <h4 class="text-center font-weight-normal">Number of Most Recent Photos: ${totalPhotos}</h4>
                     `;
+    const images = roverImages.map(roverUrl => `<div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="${roverUrl}">
+        <img src="${roverUrl}" alt="Photo from ${name}" width="auto" height="400" style="border: 2px solid white;">
+      </a>
+    </div>
+  </div>'`)
+  roverContainer.innerHTML += images.reduce((a,b) => a+b);
 
-    for (let x = 0; x < arrayLen; x++) {
-
-        roverContainer.innerHTML += `<div class="responsive">
-        <div class="gallery">
-          <a target="_blank" href="${roverImages[x]}">
-            <img src="${roverImages[x]}" alt="Photo number ${x} from ${name}" width="auto" height="400" style="border: 2px solid white;">
-          </a>
-        </div>
-      </div>`;
-    }
 
     roverContainer.innerHTML += `</div>`;
 
 }
+document.body.addEventListener('click', function(e){
+            if(e.target.id === 'homeButton'){
+                loadHome();
+            }
+            else if(e.target.id === 'Spirit' || e.target.id === 'Opportunity' || e.target.id === 'Curiosity'){
+                loadRover();
+            }
+    });
 
 function renderRoverMenu(rovers) {
     roverButtons = '';
     roverButtons += rovers.map(rover =>
-            `<div><button type="button" class="rovers">${rover}</button></div>`)
+            `<div><button type="button" id="${rover}" class="rovers">${rover}</button></div>`)
         .join('');
     const arrayBTNs = document.getElementsByClassName('rovers');
 
@@ -199,11 +203,11 @@ function renderRoverMenu(rovers) {
     <div class='btn-container'><button id="homeButton" type="button">Home</button></div>
     `;
 
-    document.getElementById('homeButton').addEventListener('click', loadHome);
+    // document.getElementById('homeButton').addEventListener('click', loadHome);
 
-    for (let i = 0; i < arrayBTNs.length; i++) {
-        arrayBTNs[i].addEventListener('click', loadRover);
-    }
+    // for (let i = 0; i < arrayBTNs.length; i++) {
+    //     arrayBTNs[i].addEventListener('click', loadRover);
+    // }
 
 }
 
